@@ -52,28 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.prefs.Preferences;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
@@ -84,7 +63,11 @@ import bspkrs.mmv.McpMappingLoader;
 import bspkrs.mmv.McpMappingLoader.CantLoadMCPMappingException;
 import bspkrs.mmv.VersionFetcher;
 import bspkrs.mmv.gui.theme.NxDarkTheme;
+import bspkrs.mmv.gui.theme.NxLightTheme;
 import bspkrs.mmv.version.AppVersionChecker;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import immibis.bon.IProgressListener;
 
 public class MappingGui extends JFrame {
@@ -281,7 +264,8 @@ public class MappingGui extends JFrame {
         try {
             // Set System L&F
             UIManager.setLookAndFeel(new NxDarkTheme());
-
+            UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 16));
+            FlatRobotoFont.install();
         } catch (Throwable ignored) {}
         EventQueue.invokeLater(() -> {
             try {
@@ -337,7 +321,7 @@ public class MappingGui extends JFrame {
     public void setCsvFileEdited(boolean bol) {
         btnGetBotCommands.setEnabled(bol);
     }
-
+    private boolean isDarkMode = true;
     /**
      * Initialize the contents of the frame.
      */
@@ -350,10 +334,15 @@ public class MappingGui extends JFrame {
                 savePrefs();
             }
         });
+
         frmMcpMappingViewer.setTitle("MCP Mapping Viewer | NykooX's Version");
-        frmMcpMappingViewer.setBounds(100, 100, 925, 621);
+        frmMcpMappingViewer.setBounds(100, 100, 1280, 720);
+        frmMcpMappingViewer.setLocationRelativeTo(null);
         frmMcpMappingViewer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMcpMappingViewer.getContentPane().setLayout(new BorderLayout(0, 0));
+
+        JButton btnToggleTheme = new JButton("Toggle Theme");
+        btnToggleTheme.addActionListener(e -> toggleTheme());
 
         JSplitPane splitMain = new JSplitPane();
         splitMain.setBorder(null);
@@ -444,9 +433,9 @@ public class MappingGui extends JFrame {
         pnlControls.setSize(new Dimension(0, 40));
         pnlControls.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 2));
 
-        cmbMappingVersion = new JComboBox<String>(new DefaultComboBoxModel<String>());
+        cmbMappingVersion = new JComboBox<>(new DefaultComboBoxModel<>());
         cmbMappingVersion.setEditable(false);
-        cmbMappingVersion.setPreferredSize(new Dimension(320, 32));
+        cmbMappingVersion.setPreferredSize(new Dimension(320, 34));
         cmbMappingVersion.addItemListener(new MappingVersionsComboItemChanged());
 
         JLabel lblMappingVersion = new JLabel("Mapping Version");
@@ -473,6 +462,8 @@ public class MappingGui extends JFrame {
         chkForceRefresh.setToolTipText("Force a reload from the MCP conf folder files instead of the session cache.");
         pnlControls.add(chkForceRefresh);
 
+        pnlControls.add(btnToggleTheme);
+
         pnlProgress = new JPanel();
         pnlProgress.setVisible(false);
         pnlHeader.add(pnlProgress, BorderLayout.SOUTH);
@@ -496,7 +487,7 @@ public class MappingGui extends JFrame {
 
         cmbFilter = new JComboBox<>();
         cmbFilter.setEditable(true);
-        cmbFilter.setPreferredSize(new Dimension(300, 32));
+        cmbFilter.setPreferredSize(new Dimension(300, 34));
         cmbFilter.setMaximumRowCount(10);
         pnlFilter.add(cmbFilter);
 
@@ -608,6 +599,21 @@ public class MappingGui extends JFrame {
                 Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(errMsg), null);
                 JOptionPane.showMessageDialog(MappingGui.this, errMsg, "MMV - Error", JOptionPane.ERROR_MESSAGE);
             });
+        }
+    }
+
+    private void toggleTheme() {
+        try {
+            if (isDarkMode) {
+                UIManager.setLookAndFeel(new NxLightTheme());
+                isDarkMode = false;
+            } else {
+                UIManager.setLookAndFeel(new NxDarkTheme());
+                isDarkMode = true;
+            }
+            SwingUtilities.updateComponentTreeUI(frmMcpMappingViewer);
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
         }
     }
 

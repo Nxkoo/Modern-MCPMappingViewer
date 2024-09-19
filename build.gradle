@@ -23,6 +23,7 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.formdev:flatlaf:3.5.1'
+    implementation group: 'com.formdev', name: 'flatlaf-fonts-roboto', version: '2.137'
 }
 
 [compileJava, compileTestJava].each { cJava ->
