@@ -556,16 +556,16 @@ public class MappingGui extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 MappingGui.class.getClassLoader();
-                String imgsrc = "https://avatars.githubusercontent.com/u/156827901?s=232";
+                String imgsrc = "https://avatars.githubusercontent.com/u/156827901?s=200";
                 String year = new SimpleDateFormat("yyyy").format(new Date());
                 String message = "<center><img src=\"" + imgsrc + "\"/><br/>"
                         + "MCP Mapping Viewer v" + VERSION_NUMBER + "<br/>"
                         + "Copyright (C) 2013-" + year + " bspkrs<br/>"
                         + "Portions Copyright (C) 2013 Alex \"immibis\" Campbell<br/><br/>"
                         + "Author: bspkrs<br/>"
-                        + "Credits: immibis (for <a href=\"https://github.com/immibis/bearded-octo-nemesis\">BON</a> code), "
-                        + "Searge et al (for <a href=\"http://mcp.ocean-labs.de\">MCP</a>), <br />"
-                        + "NykooX (for contributions on <a href=\"https://github.com/nxkoo\">GitHub</a>)<br/><br/>"
+                        + "Credits: <strong>NykooX</strong> (for contributions on <a href=\"https://github.com/nxkoo\">GitHub</a>), "
+                        + "immibis (for <a href=\"https://github.com/immibis/bearded-octo-nemesis\">BON</a> code),<br/>"
+                        + "Searge et al (for <a href=\"http://mcp.ocean-labs.de\">MCP</a>).<br/><br />"
                         + "<a href=\"" + mcfTopic + "\">MCF Thread</a><br/>"
                         + "<a href=\"https://github.com/bspkrs/MCPMappingViewer\">Github Repo</a><br/>"
                         + "<a href=\"https://github.com/bspkrs/MCPMappingViewer/blob/master/change.log\">Change Log</a><br/>"
