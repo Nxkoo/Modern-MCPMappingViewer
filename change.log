@@ -1,0 +1,39 @@
+0.7.3 - 30-Jun-2014
+- fixed version checker derping due to dropbox server changes
+0.7.2 - 18-Apr-2014
+- fixed derp where column sort settings were reset on search
+0.7.1 - 12-Apr-2014
+- fixed compabibility with latest Forge releases
+0.7.0 - 01-Apr-2014
+- fixed a potential issue with not adding the header row when exporting CSV files
+- added support for viewing and editing params.csv :D
+0.6.1 - 24-Feb-2014
+- added code to make SRG name searches actually highlight the item they are meant to find
+0.6.0 - 22-Jan-2014
+- saving of edits back to CSVs is now possible! careful if you are editing Forge CSVs!
+- when using side Universal (Forge), edits will produce multiple bot commands unless the item is client only
+- better handling of button states based on edits
+0.5.3 - 05-Dec-2013
+- added application icon and About image
+- cleaned up some messy code
+- filter is now clear on load
+0.5.2 - 03-Dec-2013
+- added search history
+0.5.1 - 26-Nov-2013
+- fixed derp in method to get the bot command
+0.5.0 - 25-Nov-2013
+- added basic support for generating MCPBot commands to execute in a DCC session with the bot
+0.2.2 - 14-Nov-2013
+- proper fixed CsvFile parser defect
+0.2.1 - 14-Nov-2013
+- fixed major logic flaw in CsvFile parser
+0.2.0 - 14-Nov-2013
+- many UI improvements and tweaks
+- column sort is now remembered
+- added global search functionality
+- added option to force reload from mcp/conf files vs cached data
+- added version notifications (non-naggy, you'll only be notified once per new version)
+- improved exception handling
+0.1.0a - 12-Nov-2013
+- initial release!
+- acts as an obfuscation map viewer

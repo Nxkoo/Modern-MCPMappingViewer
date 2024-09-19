@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'edu.sc.seis.launch4j' version '2.5.0'
+}
+
+version = '1.0.3'
+ext.mainClassName = "bspkrs.mmv.gui.MappingGui"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.formdev:flatlaf:3.5.1'
+}
+
+[compileJava, compileTestJava].each { cJava ->
+    cJava.options.compilerArgs += ['-Xlint:unchecked']
+    cJava.options.encoding = 'UTF-8'
+    cJava.options.incremental = true
+    cJava.options.fork = true
+}
+
+processResources {
+    from 'LICENSE'
+}
+
+build.dependsOn(shadowJar)
+
+jar {
+    destinationDirectory = temporaryDir
+}
+
+shadowJar {
+    archiveClassifier.set('')
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
+jar.manifest {
+    attributes 'Main-Class': mainClassName
+}
+
+createExe {
+    dependsOn 'build'
+    mainClassName = mainClassName
+    copyConfigurable = project.tasks.shadowJar.outputs.files
+    jar = "lib/${project.tasks.shadowJar.archiveFileName}"
+    outputDir = 'libs'
+    outfile = tasks.shadowJar.archiveName - '.jar' + '.exe'
+    productName = 'MCP Mapping Viewer'
+    icon = "${projectDir}/MCPMappingViewer.ico"
+    supportUrl = 'https://www.minecraftforum.net/topic/2115030'
+    copyright = 'Copyright 2013-2021 bspkrs, portions Copyright 2013-2014 Alex "Immibis" Campbell'
+    version = "${project.version}"
+}
+
+task run(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = mainClassName
+}
